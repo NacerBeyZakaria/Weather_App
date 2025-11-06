@@ -52,7 +52,7 @@ class HourlyForecastDialog(QDialog):
         title.setAlignment(Qt.AlignCenter)
         layout.addWidget(title)
 
-        # Precipitation probability graph
+       
         precip_frame = QFrame()
         precip_layout = QVBoxLayout()
         precip_text = UI_TRANSLATIONS["precipitation_probability"][self.language]
@@ -61,9 +61,9 @@ class HourlyForecastDialog(QDialog):
         precip_label.setAlignment(Qt.AlignCenter)
         precip_layout.addWidget(precip_label)
         
-        # Simple bar chart
+        
         bars_layout = QHBoxLayout()
-        for hour in range(0, 24, 3):  # Show every 3 hours
+        for hour in range(0, 24, 3):  
             bar_container = QVBoxLayout()
             bar_container.setSpacing(2)
             
@@ -195,18 +195,18 @@ class DayCard(QFrame):
         self.setFrameStyle(QFrame.Box | QFrame.Raised)
         self.setLineWidth(2)
         
-        # Dynamic backgrounds based on weather
+        
         weather_backgrounds = {
-            0: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #56CCF2, stop:1 #2F80ED)",  # Clear - blue
-            1: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #667eea, stop:1 #764ba2)",  # Mainly clear
-            2: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #a8edea, stop:1 #fed6e3)",  # Partly cloudy
-            3: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #636363, stop:1 #a2ab58)",  # Overcast
-            45: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #bdc3c7, stop:1 #2c3e50)",  # Fog
-            61: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #4facfe, stop:1 #00f2fe)",  # Rain
-            63: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #43e97b, stop:1 #38f9d7)",  # Moderate rain
-            65: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #30cfd0, stop:1 #330867)",  # Heavy rain - dark
-            71: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #e0eafc, stop:1 #cfdef3)",  # Snow
-            95: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #ff6b6b, stop:1 #ee5a6f)",  # Thunderstorm - red
+            0: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #56CCF2, stop:1 #2F80ED)",  
+            1: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #667eea, stop:1 #764ba2)", 
+            2: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #a8edea, stop:1 #fed6e3)", 
+            3: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #636363, stop:1 #a2ab58)",  
+            45: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #bdc3c7, stop:1 #2c3e50)",  
+            61: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #4facfe, stop:1 #00f2fe)", 
+            63: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #43e97b, stop:1 #38f9d7)",  
+            65: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #30cfd0, stop:1 #330867)",  
+            71: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #e0eafc, stop:1 #cfdef3)",  
+            95: "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #ff6b6b, stop:1 #ee5a6f)",  
         }
         
         background = weather_backgrounds.get(weather_code, "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #667eea, stop:1 #764ba2)")
@@ -258,7 +258,7 @@ class DayCard(QFrame):
         feels_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(feels_label)
 
-        # Sunrise/Sunset times
+       
         sunrise_time = datetime.fromisoformat(sunrise).strftime("%H:%M")
         sunset_time = datetime.fromisoformat(sunset).strftime("%H:%M")
         sun_label = QLabel(f"🌅 {sunrise_time}  🌇 {sunset_time}")
@@ -277,7 +277,7 @@ class DayCard(QFrame):
         details_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(details_label)
 
-        # Weather recommendation
+       
         recommendation = WEATHER_RECOMMENDATIONS.get(weather_code, {}).get(self.language, "")
         if recommendation:
             rec_label = QLabel(recommendation)
