@@ -22,7 +22,7 @@ class WeatherFetchThread(QThread):
                 lat = self.lat
                 lon = self.lon
             else:
-                # Step 1: Get coordinates from city name (supports multiple languages)
+                
                 encoded_city = urllib.parse.quote(self.city_name)
                 geocode_url = f"https://geocoding-api.open-meteo.com/v1/search?name={encoded_city}&count=10&format=json"
 
@@ -33,7 +33,7 @@ class WeatherFetchThread(QThread):
                     self.error.emit(f"❌ City '{self.city_name}' not found.\n\nPlease check the spelling and try again.")
                     return
 
-                # Take the first (most relevant) result
+                
                 location = geo_data["results"][0]
 
                 lat = location["latitude"]
@@ -41,12 +41,12 @@ class WeatherFetchThread(QThread):
                 city_display = location["name"]
                 country = location.get("country", "")
 
-            # Extended weather data with air quality
+           
             weather_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_sum,precipitation_probability_max,windspeed_10m_max,relative_humidity_2m_max,sunrise,sunset,uv_index_max&hourly=temperature_2m,apparent_temperature,weathercode,precipitation_probability,windspeed_10m,relative_humidity_2m&current=temperature_2m,apparent_temperature,weathercode&timezone=auto&forecast_days=7"
             weather_response = requests.get(weather_url, timeout=10)
             weather_data = weather_response.json()
 
-            # Try to get air quality data
+            
             aqi_data = None
             try:
                 aqi_url = f"https://air-quality-api.open-meteo.com/v1/air-quality?latitude={lat}&longitude={lon}&current=european_aqi"
@@ -55,7 +55,7 @@ class WeatherFetchThread(QThread):
             except:
                 pass
 
-            # Check for severe weather alerts
+            
             alerts = []
             for i, code in enumerate(weather_data["daily"]["weathercode"]):
                 if code in [65, 82, 95, 96, 99]:
