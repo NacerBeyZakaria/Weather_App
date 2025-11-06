@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QFont
 
-# Your modular app imports:
+
 from config.translations import LANGUAGES, UI_TRANSLATIONS, AQI_CATEGORIES
 from core.api import WeatherFetchThread, LocationFetchThread
 from core.favorites import FavoritesManager
@@ -27,7 +27,7 @@ class WeatherApp(QWidget):
         self.setWindowTitle("🌤️ Modern Weather App - 7 Day Forecast")
         self.setGeometry(100, 100, 1400, 850)
         
-        # Auto-refresh timer
+        
         self.refresh_timer = QTimer()
         self.refresh_timer.timeout.connect(self.auto_refresh)
         
@@ -37,14 +37,14 @@ class WeatherApp(QWidget):
         self.init_ui()
 
     def fetch_user_location_for_theme(self):
-    # Use your LocationFetchThread to get lat/lon
+    
         self.location_thread = LocationFetchThread()
         self.location_thread.finished.connect(self._set_theme_by_sun_times)
         self.location_thread.error.connect(self._fallback_local_time_theme)
         self.location_thread.start()
 
     def _set_theme_by_sun_times(self, lat, lon, city):
-        # Use WeatherFetchThread to get daily weather for user's real location
+        
         self.fetch_thread = WeatherFetchThread(lat=lat, lon=lon)
         self.fetch_thread.finished.connect(self._auto_theme_from_weather)
         self.fetch_thread.error.connect(self._fallback_local_time_theme)
@@ -56,14 +56,13 @@ class WeatherApp(QWidget):
         sunrise = datetime.strptime(sunrise_str, '%Y-%m-%dT%H:%M')
         sunset = datetime.strptime(sunset_str, '%Y-%m-%dT%H:%M')
         now = datetime.now()
-        # 'now' is your computer time, and sunrise/sunset are local times.
-        # So if your computer time matches your local area, this works perfectly:
+        
         if sunrise <= now < sunset:
-            self.dark_mode = False      # day = light
+            self.dark_mode = False      
         else:
-            self.dark_mode = True       # night = dark
+            self.dark_mode = True      
         self.apply_theme()
-        # Optionally, update the theme button, etc.
+        
 
     def _fallback_local_time_theme(self, *args):
         now = datetime.now()
@@ -105,7 +104,7 @@ class WeatherApp(QWidget):
         main_layout.setSpacing(15)
         main_layout.setContentsMargins(30, 30, 30, 30)
 
-        # Header with title, language selector, and theme toggle
+        
         header_layout = QHBoxLayout()
 
         title_text = UI_TRANSLATIONS["title"][self.current_language]
@@ -117,7 +116,7 @@ class WeatherApp(QWidget):
         
         header_layout.addStretch()
         
-        # Language selector
+        
         lang_label = QLabel("🌐")
         lang_label.setStyleSheet("background: transparent; font-size: 18px;")
         header_layout.addWidget(lang_label)
@@ -131,14 +130,14 @@ class WeatherApp(QWidget):
         self.lang_combo.setFixedWidth(130)
         header_layout.addWidget(self.lang_combo)
         
-        # Auto-refresh toggle
+        
         self.auto_refresh_btn = QPushButton("🔄 Auto-refresh: OFF")
         self.auto_refresh_btn.clicked.connect(self.toggle_auto_refresh)
         self.auto_refresh_btn.setCursor(Qt.PointingHandCursor)
         self.auto_refresh_btn.setFixedWidth(180)
         header_layout.addWidget(self.auto_refresh_btn)
         
-        # Theme toggle
+       
         self.theme_btn = QPushButton("🌙 Dark Mode")
         self.theme_btn.clicked.connect(self.toggle_theme)
         self.theme_btn.setCursor(Qt.PointingHandCursor)
@@ -147,7 +146,7 @@ class WeatherApp(QWidget):
         
         main_layout.addLayout(header_layout)
 
-        # Input section with location button
+        
         input_layout = QHBoxLayout()
         input_layout.setSpacing(15)
         
@@ -172,12 +171,12 @@ class WeatherApp(QWidget):
         input_layout.addWidget(self.fetch_button, 1)
         main_layout.addLayout(input_layout)
 
-        # Favorites and Recent section
+        
         quick_access_layout = QHBoxLayout()
         quick_access_layout.setSpacing(10)
         
         fav_text = UI_TRANSLATIONS["favorites"][self.current_language]
-        self.fav_label = QLabel(f"⭐ {fav_text}:")  # Changed to self.fav_label
+        self.fav_label = QLabel(f"⭐ {fav_text}:")  
         self.fav_label.setFont(QFont("Arial", 11, QFont.Bold))
         self.fav_label.setStyleSheet("background: transparent;")
         quick_access_layout.addWidget(self.fav_label)
@@ -189,7 +188,7 @@ class WeatherApp(QWidget):
         quick_access_layout.addStretch()
         
         recent_text = UI_TRANSLATIONS["recent"][self.current_language]
-        self.recent_label = QLabel(f"🕒 {recent_text}:")  # Changed to self.recent_label
+        self.recent_label = QLabel(f"🕒 {recent_text}:")  
         self.recent_label.setFont(QFont("Arial", 11, QFont.Bold))
         self.recent_label.setStyleSheet("background: transparent;")
         quick_access_layout.addWidget(self.recent_label)
@@ -202,7 +201,7 @@ class WeatherApp(QWidget):
         
         self.update_quick_access_buttons()
 
-        # City info, AQI, and favorite button
+        
         city_info_layout = QHBoxLayout()
         
         self.city_label = QLabel("")
@@ -211,7 +210,7 @@ class WeatherApp(QWidget):
         self.city_label.setAlignment(Qt.AlignCenter)
         city_info_layout.addWidget(self.city_label)
         
-        # Air Quality Index
+       
         self.aqi_label = QLabel("")
         self.aqi_label.setFont(QFont("Arial", 11, QFont.Bold))
         self.aqi_label.setStyleSheet("background: transparent; padding: 8px 16px; border-radius: 15px;")
@@ -227,7 +226,7 @@ class WeatherApp(QWidget):
         
         main_layout.addLayout(city_info_layout)
 
-        # Weather alerts banner
+        
         self.alerts_label = QLabel("")
         self.alerts_label.setFont(QFont("Arial", 12, QFont.Bold))
         self.alerts_label.setStyleSheet("""
@@ -238,7 +237,7 @@ class WeatherApp(QWidget):
         self.alerts_label.setVisible(False)
         main_layout.addWidget(self.alerts_label)
 
-        # Scroll area for weather cards
+        
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
 
@@ -250,7 +249,7 @@ class WeatherApp(QWidget):
         scroll.setWidget(self.weather_container)
         main_layout.addWidget(scroll)
 
-        # Status label
+        
         self.status_label = QLabel("👆 Enter a city name or use your location to see the 7-day forecast")
         self.status_label.setFont(QFont("Arial", 12))
         self.status_label.setStyleSheet("background: transparent;")
@@ -263,7 +262,7 @@ class WeatherApp(QWidget):
         self.current_language = self.lang_combo.currentData()
         self.favorites_manager.set_language(self.current_language)
         
-        # Update UI text
+       
         title_text = UI_TRANSLATIONS["title"][self.current_language]
         self.setWindowTitle(f"🌤️ {title_text}")
         
@@ -276,7 +275,7 @@ class WeatherApp(QWidget):
         loc_text = UI_TRANSLATIONS["my_location"][self.current_language]
         self.location_btn.setText(f"📍 {loc_text}")
         
-        # Update auto-refresh button
+       
         if self.refresh_timer.isActive():
             refresh_text = UI_TRANSLATIONS["auto_refresh_on"][self.current_language]
             self.auto_refresh_btn.setText(f"🔄 {refresh_text}")
@@ -284,7 +283,7 @@ class WeatherApp(QWidget):
             refresh_text = UI_TRANSLATIONS["auto_refresh_off"][self.current_language]
             self.auto_refresh_btn.setText(f"🔄 {refresh_text}")
         
-        # Update theme button
+        
         if self.dark_mode:
             theme_text = UI_TRANSLATIONS["light_mode"][self.current_language]
             self.theme_btn.setText(f"☀️ {theme_text}")
@@ -302,9 +301,9 @@ class WeatherApp(QWidget):
         self.title.setText(f"🌤️ {new_title}")
         self.setWindowTitle(f"🌤️ {new_title}")
         
-        # **FIX: Update favorites and recent labels immediately**
+        
         self.update_quick_access_buttons()
-        # Refresh weather cards if data exists
+        
         if self.weather_data:
             self.clear_weather_cards()
             self.display_weather(self.weather_data)
@@ -444,20 +443,20 @@ class WeatherApp(QWidget):
 
     def display_weather(self, data):
 
-        # --- AUTO NIGHT/DAY THEME BASED ON LOCATION'S SUNRISE/SUNSET ---
+       
         try:
-            # Today's sunrise and sunset (ISO 8601 string from API)
+            
             sunrise_str = data['daily']['sunrise'][0]
             sunset_str  = data['daily']['sunset'][0]
             sunrise = datetime.fromisoformat(sunrise_str)
             sunset = datetime.fromisoformat(sunset_str)
             now = datetime.now(sunrise.tzinfo) if sunrise.tzinfo else datetime.now()
-            # Only auto-set if user hasn't toggled theme manually yet
+          
             auto_theme = not hasattr(self, "_manual_theme") or not self._manual_theme
             if auto_theme:
                 self.dark_mode = not (sunrise <= now < sunset)
                 self.apply_theme()
-                # update theme button text for consistency
+               
                 if self.dark_mode:
                     theme_text = UI_TRANSLATIONS["light_mode"][self.current_language]
                     self.theme_btn.setText(f"☀️ {theme_text}")
@@ -465,7 +464,7 @@ class WeatherApp(QWidget):
                     theme_text = UI_TRANSLATIONS["dark_mode"][self.current_language]
                     self.theme_btn.setText(f"🌙 {theme_text}")
         except Exception as e:
-            pass  # fallback silently if API didn't give sunrise/sunset
+            pass  
 
         weather_text = UI_TRANSLATIONS["get_weather"][self.current_language]
         self.fetch_button.setEnabled(True)
@@ -479,7 +478,7 @@ class WeatherApp(QWidget):
         hourly_text = UI_TRANSLATIONS["click_for_hourly"][self.current_language]
         self.status_label.setText(f"✅ {showing_text} {city} ({hourly_text})")
         
-        # Update favorite button
+        
         self.favorite_btn.setVisible(True)
         if self.favorites_manager.is_favorite(city):
             remove_text = UI_TRANSLATIONS["remove_from_favorites"][self.current_language]
@@ -488,11 +487,11 @@ class WeatherApp(QWidget):
             add_text = UI_TRANSLATIONS["add_to_favorites"][self.current_language]
             self.favorite_btn.setText(f"⭐ {add_text}")
         
-        # Display Air Quality Index
+        
         if data.get("aqi") and data["aqi"].get("current"):
             aqi_value = data["aqi"]["current"].get("european_aqi", 0)
             if aqi_value > 0:
-                # Map AQI to categories
+                
                 if aqi_value <= 20:
                     category = 1
                 elif aqi_value <= 40:
@@ -518,7 +517,7 @@ class WeatherApp(QWidget):
         self.favorites_manager.add_recent(city, country)
         self.update_quick_access_buttons()
         
-        # Display weather alerts
+       
         if data["alerts"]:
             alert_prefix = UI_TRANSLATIONS["weather_alerts"][self.current_language]
             alert_text = f"⚠️ {alert_prefix}: "
