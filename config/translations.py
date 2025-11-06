@@ -26,7 +26,7 @@ WEATHER_ICONS = {
     99: "⛈️"  # Thunderstorm with heavy hail
 }
 
-# Weather descriptions with translations (ALL LANGUAGES)
+
 WEATHER_DESCRIPTIONS = {
     0: {"en": "Clear sky", "fr": "Ciel dégagé", "es": "Cielo despejado", "de": "Klarer Himmel", "ar": "سماء صافية"},
     1: {"en": "Mainly clear", "fr": "Plutôt dégagé", "es": "Mayormente despejado", "de": "Überwiegend klar", "ar": "صافٍ في الغالب"},
@@ -54,7 +54,7 @@ WEATHER_DESCRIPTIONS = {
     99: {"en": "Heavy thunderstorm", "fr": "Orage violent", "es": "Tormenta fuerte", "de": "Schweres Gewitter", "ar": "عاصفة رعدية شديدة"},
 }
 
-# Weather recommendations (ALL LANGUAGES)
+
 WEATHER_RECOMMENDATIONS = {
     0: {
         "en": "☀️ Perfect day for outdoor activities!", 
@@ -93,7 +93,7 @@ WEATHER_RECOMMENDATIONS = {
     },
 }
 
-# AQI Categories (ALL LANGUAGES)
+
 AQI_CATEGORIES = {
     1: {
         "label": {"en": "Good", "fr": "Bon", "es": "Bueno", "de": "Gut", "ar": "جيد"},
@@ -122,16 +122,16 @@ AQI_CATEGORIES = {
     },
 }
 
-# Language options (UPDATED)
+
 LANGUAGES = {
     "en": "English",
     "fr": "Français",
     "es": "Español",
     "de": "Deutsch",
-    "ar": "العربية"  # Added Arabic
+    "ar": "العربية"  
 }
 
-# UI Translations (COMPLETE - ALL ELEMENTS)
+
 UI_TRANSLATIONS = {
     "title": {"en": "7-Day Weather Forecast", "fr": "Prévisions météo 7 jours", "es": "Pronóstico de 7 días", "de": "7-Tage-Wettervorhersage", "ar": "توقعات الطقس لمدة 7 أيام"},
     "search_placeholder": {"en": "Enter city name", "fr": "Entrez le nom de la ville", "es": "Ingrese nombre de ciudad", "de": "Stadtname eingeben", "ar": "أدخل اسم المدينة"},
